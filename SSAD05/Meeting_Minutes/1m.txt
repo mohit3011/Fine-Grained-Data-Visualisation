@@ -1,0 +1,17 @@
+First Meeting: 8 August 2016 Mentor:Kamal Sir Organisation:IIIT Hyderabad
+Time length:15 minutes
+
+Primary Objective:Get Idea about Project
+
+Result:Learn detecting patterns in set of billions of point in 2-D or 3-D plane
+
+Side Points: 
+1)Take 1000 points in 2-D plane try to find way to find pattern
+2)Project openended
+3)If possible develop like plugin for excel or its open source alternative
+
+Technology Mentioned:
+OpenGL and Matlab
+
+
+
