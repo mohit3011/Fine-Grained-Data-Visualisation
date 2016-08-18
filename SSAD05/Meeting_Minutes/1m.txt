@@ -1,17 +1,30 @@
-First Meeting: 8 August 2016 Mentor:Kamal Sir Organisation:IIIT Hyderabad
-Time length:15 minutes
+﻿First Meeting
+Date: 8 August 2016 
+Mentor: Kamal Karlapalem
+Organisation: IIIT Hyderabad
+Time length: 15 minutes(4:15-4:30)
+Team Members: Yash Verma,Mohit Chandra,Nikhil Gogate
+Project Name: Fine Grained Data Visualisation
 
-Primary Objective:Get Idea about Project
+Primary Objective:
+Get Idea about Project and percieve client's Expectations.
 
-Result:Learn detecting patterns in set of billions of point in 2-D or 3-D plane
+Result:
+Learn detecting patterns in set of billion points in 2-D or 3-D plane.The pattern should convey some meaning so that the user gets some result.
 
 Side Points: 
-1)Take 1000 points in 2-D plane try to find way to find pattern
-2)Project openended
-3)If possible develop like plugin for excel or its open source alternative
+1)Try to plot 1000 random points in the 2-D plane and explore various technologies helpful in plotting points.
+
+2)Project requires creativity and artistic approach.
+
+3)If possible develop like plugin for excel or its open source alternative.
 
 Technology Mentioned:
-OpenGL and Matlab
+1)OpenGL
+2)Matlab
+3)OpenCV
+4)javascript
+
 
 
 
