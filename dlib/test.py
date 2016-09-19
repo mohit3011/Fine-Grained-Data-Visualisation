@@ -51,7 +51,7 @@ import PIL
 from PIL import Image
 from resizeimage import resizeimage
 import matplotlib.pyplot as plt
-
+import matplotlib.tri as tri
 
 
 if len(sys.argv) != 3:
@@ -104,14 +104,23 @@ for k, d in enumerate(dets):
 	fi.close()
 
 	fi = open('point.txt', 'r')
+	xp=[]
+	yp=[]
 	for line in fi:
 		x1 = line[1]+line[2]+ line[3]
 		y1 = line[5] + line[6] + line[7]
 		x1 = int(x1)
-		y1 = int(y1)
-		plt.plot(x1,y1,'bo')
+		y1 = -1*int(y1)
+		xp.append(x1);
+		yp.append(y1);
+#plt.plot(x1,y1,"bo")
 		print x1,y1
-
+#	plt.figure()
+#plt.gca().set_aspect('equal')
+	plt.triplot(xp,yp,'go-')
+	plt.title('triplot of user-specified triangulation')
+	plt.xlabel('Longitude (degrees)')
+	plt.ylabel('Latitude (degrees)')
 	plt.show()
 		
         # Draw the face landmarks on the screen.

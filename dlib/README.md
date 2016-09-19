@@ -5,4 +5,4 @@
 
 3) To use test.py install dlib , skimage , PIL , matplotlib and resizeimage libraries for python.
 
-4) The output of test.py is the graph and an image with detected landmarks.
+4) The output of test.py is the graph of Delaunay's triangulation of detected landmarks and an image with detected landmarks.
