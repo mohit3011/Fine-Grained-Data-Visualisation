@@ -1,0 +1,1 @@
+After plotting 10^5 points on a straight line for 10 different times, we can see that each time the points getting plotted are covering the entire line without any gap hence giving distribution over the entire range.
