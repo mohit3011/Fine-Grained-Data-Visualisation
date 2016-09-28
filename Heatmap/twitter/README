@@ -1,0 +1,12 @@
+> What is done by script.py ?
+script.py extracts tweets from twitter , extracts the information of user who tweeted that tweet and from that plot point on the graph. That point is followers vs following of that user.
+
+> Why this script ?
+This will create a 2D dataset which seems quite interesting to me and maybe after creating of heatmap some information can be derived from it.
+
+> What all libraries are used in this script ?
+json, matplotlib pyplot ,matplotlib animation , twitter
+
+> Why limit on followers and following (I am taking only those whose followers and following people are greater than 100 and less than 1000) ?
+Lower limit is there as there are quite a few inactive accounts on twitter due to which the count of such accounts is not taken , during testing these accounts were in larger numbers
+Upper limit is there only during development process and can be changed afterwards, I placed it to reduce difference between points
