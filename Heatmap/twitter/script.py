@@ -2,8 +2,7 @@ from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import time
-import thread
-
+import numpy as np
 try:
     import json
 except ImportError:
@@ -29,6 +28,9 @@ ax1 = fig.add_subplot(1,1,1)
 
 xd=[]
 yd=[]
+#hm = heatmap.Heatmap()
+#heatmap, xedges, yedges = np.histogram2d(xd,yd,bins=500)
+#extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
 def add_data():
     cnt = 0
@@ -41,9 +43,9 @@ def add_data():
             j = json.loads(x)
             foll_count = j['user']['followers_count']
             frie_count = j['user']['friends_count']
-            if foll_count <= 1000 and frie_count <= 1000 and foll_count >= 100 and frie_count >= 100:
-                xs.append(foll_count)
-                ys.append(frie_count)
+            #if foll_count <= 1000 and frie_count <= 1000 and foll_count >= 100 and frie_count >= 100:
+            xs.append(foll_count)
+            ys.append(frie_count)
             print foll_count,frie_count
         except:
             continue
@@ -58,11 +60,12 @@ def animate(i):
     xs,ys = add_data()
     xd.extend(xs)
     yd.extend(ys)
-    #print xd,yd
     ax1.clear()
     ax1.scatter(xd,yd)
+    #plt.hist2d(xd,yd,bins=40)
 
-ani = animation.FuncAnimation(fig,animate,interval=100)
+
+ani = animation.FuncAnimation(fig,animate,interval=10)
 plt.show()
 
 '''
