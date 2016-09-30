@@ -43,9 +43,9 @@ def add_data():
             j = json.loads(x)
             foll_count = j['user']['followers_count']
             frie_count = j['user']['friends_count']
-            #if foll_count <= 1000 and frie_count <= 1000 and foll_count >= 100 and frie_count >= 100:
-            xs.append(foll_count)
-            ys.append(frie_count)
+            if foll_count <= 1000 and frie_count <= 1000 and foll_count >= 100 and frie_count >= 100:
+                xs.append(foll_count)
+                ys.append(frie_count)
             print foll_count,frie_count
         except:
             continue
