@@ -51,8 +51,10 @@ from skimage import io
 import PIL
 from PIL import Image
 from resizeimage import resizeimage
+from matplotlib import cm
 import matplotlib.pyplot as plt
 import matplotlib.tri as tri
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.animation as anim
 from time import *
 
@@ -146,28 +148,27 @@ if sys.argv[2].lower().endswith(('.png', '.jpg', '.jpeg')):
 else:
 	print "hello\n"
 	fi = open(sys.argv[2],'r')
-	plt.title('triplot of user-specified triangulation')
-	plt.xlabel('Longitude (degrees)')
-	plt.ylabel('Latitude (degrees)')
-	plt.show(block=False)
+
 	xp=[]
 	yp=[]
+	zp=[]
 	color=['bo-','go-','ro-','co-','mo-','yo-','ko-']
 	i=0
 	for line in fi:
 		x1 = line[1]+line[2]+line[3]
 		y1 =  line[6]+line[7]+line[8]
+		z1 =  line[11]+line[12]+line[13]
+		print x1,y1,z1
+
 		x1 = int(x1)
 		y1 = -1*int(y1)
-		xp.append(x1);
-		yp.append(y1);
-		#print x1,y1
-		if len(xp)>=3:
-			plt.triplot(xp,yp,color[len(xp)%7])
-			plt.draw()
-			plt.pause(0.001)
-			plt.clf()
-#plt.plot(x1,y1,"bo")
-#	plt.figure()
-#plt.gca().set_aspect('equal')
-	# Draw the face landmarks on the screen.
+		z1 = int(z1)
+		xp.append(x1)
+		yp.append(y1)
+		zp.append(z1)
+
+	fig = plt.figure()
+	ax = fig.gca(projection='3d')
+
+	ax.plot_trisurf(xp, yp, zp, cmap=cm.jet, linewidth=0.2)
+	plt.show()
