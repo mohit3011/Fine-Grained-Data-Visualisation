@@ -8,7 +8,6 @@ filename  = str(filename)
 
 
 img = cv2.imread(filename)
-print img
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
 gray = np.float32(gray)
@@ -21,26 +20,40 @@ dst = cv2.dilate(dst,None)
 img[dst>0.01*dst.max()]=[0,0,255]
 
 coord = np.where(np.all(img == (0, 0, 255), axis=-1))
-points=[]
 plx=[]
 ply=[]
+point=[]
 it=0
-for i in xrange(0,len(coord[0]),50):
+for i in xrange(0,len(coord[0]),100):
 	xp=coord[0][i]
 	yp=-1*coord[1][i]
-	yo=[xp,yp]
-	plx.append(xp)
-	ply.append(yp)
-	print yo
-	points.append(yo)
+	plx.append(float(xp))
+	ply.append(float(yp))
+	point.append([xp,yp])
 	it=it+1
+points=np.array(point)
+flag=[0 for i in xrange(len(points))]
+print flag
 hull = ConvexHull(points)
-plt.plot(plx, ply, 'o')
-# plot convex hull polygon
-#plt.plot(points[hull.vertices,0], points[hull.vertices,1], 'r--', lw=2)
-plt.plot(plx[hull.vertices[0]],points[hull.vertices[1]],'r--',lw=2)
-# plot convex full vertices
-#plt.plot(points[hull.vertices[0],0], points[hull.vertices[0],1], 'ro')
+plt.plot(points[:,0], points[:,1], 'o')
+"""
+plt.plot(points[hull.vertices,0], points[hull.vertices,1], 'r-', lw=2)
+plt.plot(points[hull.vertices[0],0], points[hull.vertices[0],1], 'ro')
+"""
+for simplex in hull.simplices:
+	plt.plot(points[simplex, 0], points[simplex, 1], 'k-')
+hull_indices = hull.vertices
+for i in hull_indices:
+	flag[i]=1
+cpy=[]
+for i in xrange(len(points)):
+	if flag[i]!=1:
+		cpy.append(points[i])
+cpy=np.array(cpy)
+hull = ConvexHull(cpy)
+for simplex in hull.simplices:
+	plt.plot(cpy[simplex, 0], cpy[simplex, 1], 'r-')
+
 plt.show()
 cv2.imshow('dst',img)
 k = cv2.waitKey(15000)
