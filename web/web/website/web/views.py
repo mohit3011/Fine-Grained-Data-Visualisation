@@ -1,11 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect,Http404
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 
-#from django.allauth.account.forms import LoginForm, SignupForm
 
-def home(request):
-    context = {
-        'log': "hello",
-    }
-    return render(request, 'web/home.html', context)
 
-# Create your views here.
+
+def index(request):
+	stri = "mohit"
+	context = {"hello":stri
+	   }
+	return render(request, "web/index.html", context)
+
+
