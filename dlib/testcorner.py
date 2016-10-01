@@ -24,6 +24,7 @@ plx=[]
 ply=[]
 point=[]
 it=0
+color=['b-','g-','r-','c-','m-','y-','k-']
 for i in xrange(0,len(coord[0]),100):
 	xp=coord[0][i]
 	yp=-1*coord[1][i]
@@ -32,30 +33,28 @@ for i in xrange(0,len(coord[0]),100):
 	point.append([xp,yp])
 	it=it+1
 points=np.array(point)
-flag=[0 for i in xrange(len(points))]
-print flag
-hull = ConvexHull(points)
-plt.plot(points[:,0], points[:,1], 'o')
-"""
-plt.plot(points[hull.vertices,0], points[hull.vertices,1], 'r-', lw=2)
-plt.plot(points[hull.vertices[0],0], points[hull.vertices[0],1], 'ro')
-"""
-for simplex in hull.simplices:
-	plt.plot(points[simplex, 0], points[simplex, 1], 'k-')
-hull_indices = hull.vertices
-for i in hull_indices:
-	flag[i]=1
-cpy=[]
-for i in xrange(len(points)):
-	if flag[i]!=1:
-		cpy.append(points[i])
-cpy=np.array(cpy)
-hull = ConvexHull(cpy)
-for simplex in hull.simplices:
-	plt.plot(cpy[simplex, 0], cpy[simplex, 1], 'r-')
-
+#plt.plot(points[:,0], points[:,1], 'o')
+plt.show(block=False)
+for i in xrange(40):
+	flag=[0 for i in xrange(len(points))]
+	if len(points)<3:
+		break
+	hull = ConvexHull(points)
+	for simplex in hull.simplices:
+		plt.plot(points[simplex, 0], points[simplex, 1], color[i%7])
+	plt.draw()
+	plt.pause(0.1)
+	hull_indices = hull.vertices
+	for i in hull_indices:
+		flag[i]=1
+	cpy=[]
+	for i in xrange(len(points)):
+		if flag[i]!=1:
+			cpy.append(points[i])
+	cpy=np.array(cpy)
+	points=cpy
 plt.show()
 cv2.imshow('dst',img)
-k = cv2.waitKey(15000)
-if k==27 or k==-1:
-    cv2.destroyAllWindows()
+#k = cv2.waitKey(15000)
+#if k==27 or k==-1:
+#   cv2.destroyAllWindows()
