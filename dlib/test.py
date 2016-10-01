@@ -52,7 +52,8 @@ from PIL import Image
 from resizeimage import resizeimage
 import matplotlib.pyplot as plt
 import matplotlib.tri as tri
-
+import matplotlib.animation as anim
+from time import *
 
 if len(sys.argv) != 3:
     print(
@@ -104,8 +105,13 @@ for k, d in enumerate(dets):
 	fi.close()
 
 	fi = open('point.txt', 'r')
+	plt.title('triplot of user-specified triangulation')
+	plt.xlabel('Longitude (degrees)')
+	plt.ylabel('Latitude (degrees)')
+	plt.show(block=False)
 	xp=[]
 	yp=[]
+	color=['bo-','go-','ro-','co-','mo-','yo-','ko-']
 	for line in fi:
 		x1 = line[1]+line[2]+ line[3]
 		y1 = line[5] + line[6] + line[7]
@@ -113,17 +119,16 @@ for k, d in enumerate(dets):
 		y1 = -1*int(y1)
 		xp.append(x1);
 		yp.append(y1);
-#plt.plot(x1,y1,"bo")
 		print x1,y1
+		if len(xp)>=3:
+			plt.triplot(xp,yp,color[len(xp)%7])
+			plt.draw()
+			plt.pause(0.001)
+			plt.clf()
+#plt.plot(x1,y1,"bo")
 #	plt.figure()
 #plt.gca().set_aspect('equal')
-	plt.triplot(xp,yp,'go-')
-	plt.title('triplot of user-specified triangulation')
-	plt.xlabel('Longitude (degrees)')
-	plt.ylabel('Latitude (degrees)')
-	plt.show()
-		
-        # Draw the face landmarks on the screen.
+	# Draw the face landmarks on the screen.
 	win.add_overlay(shape)
 
 win.add_overlay(dets)
