@@ -3,10 +3,19 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import time
 import numpy as np
+import os
+import re
+import pandas as pd
 try:
     import json
 except ImportError:
     import simplejson as json
+
+h1 = raw_input("Enter hashtag 1 > ")
+h2 = raw_input("Enter hashtag 2 > ")
+h3 = raw_input("Enter hashtag 3 > ")
+
+color = ['#2ecc71','#2980b9','#c0392b','#f1c40f','#2c3e50']
 
 ckey = 'fibkxu7Ki2PjXQM13EOpqNoB8'
 csecret = 'aLs6U02RHTl3Hx1XOyF20SuYAfUpAKGJvEWpca1s8JWqqEw7Wg'
@@ -17,85 +26,68 @@ oauth = OAuth(atoken , asecret, ckey, csecret)
 
 twitter_stream = TwitterStream(auth=oauth)
 
-iterator = twitter_stream.statuses.sample()
+filterString = h1+","+h2+","+h3
+iterator = twitter_stream.statuses.filter(track=filterString)
 
 
-#x # followers_count (number of followers of user)
-#y # friends_count (number of following of user)
+total_tweets = 0
+t=[]
+cnt_of_h=[0,0,0]
+width = 0.8
 
-fig = plt.figure()
-ax1 = fig.add_subplot(1,1,1)
+fig,ax = plt.subplots()
+h = [h1,h2,h3]
+x_pos = list(range(len(h)))
 
-xd=[]
-yd=[]
-#hm = heatmap.Heatmap()
-#heatmap, xedges, yedges = np.histogram2d(xd,yd,bins=500)
-#extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+def word_in_text(word,text):
+    word = word.lower()
+    text = text.lower()
+    match = re.search(word,text)
+    if match:
+        return True
+    return False
 
 def add_data():
+    global total_tweets
     cnt = 0
-    xs=[]
-    ys=[]
-    lst = []
+
+    if total_tweets > 3000:
+        os.system('sleep 1m')
+        os.system('exit')
+
     for tweet in iterator:
         try:
             x = json.dumps(tweet)
             j = json.loads(x)
-            foll_count = j['user']['followers_count']
-            frie_count = j['user']['friends_count']
-            if foll_count <= 1000 and frie_count <= 1000 and foll_count >= 100 and frie_count >= 100:
-                xs.append(foll_count)
-                ys.append(frie_count)
-            print foll_count,frie_count
+            tweet_text = j['text']
+            if word_in_text(h1,tweet_text):
+                cnt_of_h[0] += 1
+            if word_in_text(h2,tweet_text):
+                cnt_of_h[1] += 1
+            if word_in_text(h3,tweet_text):
+                cnt_of_h[2] += 1
         except:
             continue
-        if cnt > 5:
-            break;
         cnt += 1
-    lst.append(xs)
-    lst.append(ys)
-    return lst
+        if cnt == 5:
+            break;
+       
+    total_tweets += 5
+    print total_tweets
 
 def animate(i):
-    xs,ys = add_data()
-    xd.extend(xs)
-    yd.extend(ys)
-    ax1.clear()
-    ax1.scatter(xd,yd)
-    #plt.hist2d(xd,yd,bins=40)
+    global width
+    add_data()
+    width = 0.5
+    ax.clear()
+    ax.set_ylabel('Number of tweets')
+    stitle = "Ranking : "+h1+" vs. " + h2 + " vs. " + h3
+    ax.set_title(stitle)
+    ax.set_xticks([p+ 0.2*width for p in x_pos])
+    ax.set_xticklabels(h)
+    plt.bar(x_pos, cnt_of_h, width, color='g')
 
 
 ani = animation.FuncAnimation(fig,animate,interval=10)
+
 plt.show()
-
-'''
-try:
-    thread.start_new_thread(add_data,(2,))
-    thread.start_new_thread(plot_data,(2,))
-except:
-    print "Error creating thread"
-
-
-while 1:
-    pass
-'''
-
-
-'''
-for tweet in iterator:
-    try:
-        x = json.dumps(tweet)
-        j = json.loads(x)
-        foll_count = j['user']['followers_count']
-        frie_count = j['user']['friends_count']
-        #print j
-        #print foll_count,frie_count
-        if foll_count <= 1000000 and frie_count <= 1000000:
-            x.append(foll_count)
-            y.append(frie_count)
-        #plt.plot(x,y)
-        #plt.pause(0.1)
-        #plt.show()
-    except:
-        continue
-'''
