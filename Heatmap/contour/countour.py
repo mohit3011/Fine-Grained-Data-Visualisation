@@ -7,6 +7,7 @@ import sys
 
 radius = raw_input("Enter radius > ")
 radius = int(radius)
+
 xd=[]
 yd=[]
 
@@ -19,7 +20,7 @@ dy=[]
 dz=[]
 
 if len(sys.argv) == 1:
-    xd,yd=randomData.createRandomData(10000,10000,10000)
+    xd,yd=randomData.createRandomData(10000,100,100)
 else:
     fileData = open(sys.argv[1],"r")
     for line in fileData:
@@ -54,11 +55,11 @@ i=0
 while i <= divy:
     j=0
     while j <= divx:
-        xpos.append(j)
-        ypos.append(i)
+        xpos.append(j*radius)
+        ypos.append(i*radius)
         zpos.append(0)
-        dx.append(1)
-        dy.append(1)
+        dx.append(radius)
+        dy.append(radius)
         dz.append(0)
         j = j + 1
     i = i + 1
@@ -72,31 +73,45 @@ while i < len(xd):
     i = i + 1
 
 i = 0
-wirex=[]
-wirey=[]
-wirez=[]
-
 
 maxz = 0
+
 while i < len(dz):
     if maxz < dz[i]:
         maxz = dz[i]
     i += 1
 
+print maxz
+
 i = 0
-while i < len(xpos):
-    if int(dz[i]) >= int(maxz)/2:
-        wirex.append(xpos[i])
-        wirey.append(ypos[i])
-        wirez.append(dz[i])
-    i += 1
+
+shades = ['#9400D3','#4B0082','#0000FF','#00FF00','#FFFF00','#FF0000']
 
 fig = plt.figure()
-fig2 = plt.figure()
 ax1 = fig.add_subplot(111,projection='3d')
-ax1.bar3d(xpos, ypos, zpos, dx, dy, dz, color = '#00ceaa')
 
-ax2 = fig2.add_subplot(111,projection='3d')
-ax2.plot_wireframe(wirex,wirey,wirez,rstride=radius,cstride=radius)
+divz = float(maxz)/float(6)
+
+i = 0
+while i < len(xpos):
+    indx = dz[i]/divz
+    xposs = []
+    xposs.append(xpos[i])
+    yposs = []
+    yposs.append(ypos[i])
+    zposs = []
+    zposs.append(zpos[i])
+    dxs = []
+    dxs.append(dx[i])
+    dys = []
+    dys.append(dy[i])
+    dzs = []
+    dzs.append(dz[i])
+    ax1.bar3d(xposs, yposs, zposs, dxs, dys, dzs, color = shades[int(indx)-1])
+    i += 1
+
+#ax2 = fig2.add_subplot(111,projection='3d')
+#ax2.plot_wireframe(wirex,wirey,wirez,rstride=radius,cstride=radius)
+
 
 plt.show()
