@@ -1,0 +1,7 @@
+consumer/API KEY : fibkxu7Ki2PjXQM13EOpqNoB8
+
+consumer/API SECRET :  aLs6U02RHTl3Hx1XOyF20SuYAfUpAKGJvEWpca1s8JWqqEw7Wg
+
+Access token : 744960984230440960-va4hCQfFm43kPT3kbb7BVwX7Xtnj7Wa
+
+Access token secret : pCRHlvHBLsTgPymvtzVNiXX6sl44dBPTEmBHpfMFycd63
