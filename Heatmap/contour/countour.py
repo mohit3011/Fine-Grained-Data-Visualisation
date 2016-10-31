@@ -6,7 +6,7 @@ import sys
 
 
 radius = raw_input("Enter radius > ")
-radius = int(radius)
+radius = float(radius)
 
 xd=[]
 yd=[]
@@ -20,7 +20,7 @@ dy=[]
 dz=[]
 
 if len(sys.argv) == 1:
-    xd,yd=randomData.createRandomData(10000,100,100)
+    xd,yd=randomData.createRandomData(1000000,1000,1000)
 else:
     fileData = open(sys.argv[1],"r")
     for line in fileData:
@@ -43,8 +43,8 @@ while i <  len(yd):
         maxy = yd[i]
     i += 1
 
-maxx = int(maxx)
-maxy = int(maxy)
+maxx = float(maxx)
+maxy = float(maxy)
 
 
 divx = maxx/radius
@@ -66,10 +66,10 @@ while i <= divy:
 
 i = 0
 while i < len(xd):
-    px = int(xd[i])/radius
-    py = int(yd[i])/radius
+    px = float(xd[i])/radius
+    py = float(yd[i])/radius
     if px + py*divx < len(dz):
-        dz[px + py*divx] += 1
+        dz[int(px + py*divx)] += 1
     i = i + 1
 
 i = 0
