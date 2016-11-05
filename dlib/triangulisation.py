@@ -74,101 +74,29 @@ if len(sys.argv) != 3:
 
 
 basewidth = 700
-if sys.argv[2].lower().endswith(('.png', '.jpg', '.jpeg')):
-	predictor_path = sys.argv[1]
-	detector = dlib.get_frontal_face_detector()
-	predictor = dlib.shape_predictor(predictor_path)
-	win = dlib.image_window()
+print "hello\n"
+fi = open(sys.argv[2],'r')
 
-	orig_stdout = sys.stdout
-	fi = open('point.txt','w')
-	sys.stdout = fi
-	with open(sys.argv[2],'r+b') as f:
-		with Image.open(f) as image:
-			 cover = resizeimage.resize_cover(image, [700, 700])
-	       		 cover.save(sys.argv[2], image.format)
-
-
-	img = io.imread(sys.argv[2])
-
-
-
-	win.clear_overlay()
-	win.set_image(img)
-
-	    # Ask the detector to find the bounding boxes of each face. The 1 in the
-	    # second argument indicates that we should upsample the image 1 time. This
-	    # will make everything bigger and allow us to detect more faces.
-	dets = detector(img, 1)
-	for k, d in enumerate(dets):
-	        # Get the landmarks/parts for the face in box d.
-		#print shape.part(1),shape.part(2)
-		shape = predictor(img, d)
-		for i in xrange(68):
-			print shape.part(i)
-
-		sys.stdout = orig_stdout
-		fi.close()
-
-		fi = open('point.txt', 'r')
-		plt.title('triplot of user-specified triangulation')
-		plt.xlabel('Longitude (degrees)')
-		plt.ylabel('Latitude (degrees)')
-		plt.show(block=False)
-		xp=[]
-		yp=[]
-		color=['bo-','go-','ro-','co-','mo-','yo-','ko-']
-		for line in fi:
-			x1 = line[1]+line[2]+ line[3]
-			y1 = line[5] + line[6] + line[7]
-			x1 = int(x1)
-			y1 = -1*int(y1)
-			xp.append(x1);
-			yp.append(y1);
-			print x1,y1
-			"""
-			if len(xp)>=3:
-				plt.triplot(xp,yp,color[len(xp)%7])
-				plt.draw()
-				plt.pause(0.001)
-				plt.clf()
-			"""
-		plt.triplot(xp,yp)
-		plt.draw()
-		plt.show()
-	#plt.plot(x1,y1,"bo")
-	#	plt.figure()
-	#plt.gca().set_aspect('equal')
-		# Draw the face landmarks on the screen.
-		win.add_overlay(shape)
-
-	win.add_overlay(dets)
-	dlib.hit_enter_to_continue()
-
-else:
-	print "hello\n"
-	fi = open(sys.argv[2],'r')
-
-	xp=[]
-	yp=[]
-	zp=[]
-	color=['bo-','go-','ro-','co-','mo-','yo-','ko-']
+xp=[]
+yp=[]
+zp=[]
+color=['bo-','go-','ro-','co-','mo-','yo-','ko-']
 	i=0
-	for line in fi:
-		x1 = line[1]+line[2]+line[3]
-		y1 =  line[6]+line[7]+line[8]
-		z1 =  line[11]+line[12]+line[13]
-		print x1,y1,z1
+for line in fi:
+	x1 = line[1]+line[2]+line[3]
+	y1 =  line[6]+line[7]+line[8]
+	z1 =  line[11]+line[12]+line[13]
+	print x1,y1,z1
 
-		x1 = int(x1)
-		y1 = -1*int(y1)
-		z1 = int(z1)
-		xp.append(x1)
-		yp.append(y1)
-		zp.append(z1)
+	x1 = int(x1)
+	y1 = -1*int(y1)
+	z1 = int(z1)
+	xp.append(x1)
+	yp.append(y1)
+	zp.append(z1)
 
-	fig = plt.figure()
-	ax = fig.gca(projection='3d')
+fig = plt.figure()
+ax = fig.gca(projection='3d')
 
-	ax.plot_trisurf(xp, yp, zp, cmap=cm.jet, linewidth=0.2)
-	plt.show()
+ax.plot_trisurf(xp, yp, zp, cmap=cm.jet, linewidth=0.2)
+plt.show()
