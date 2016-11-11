@@ -15,26 +15,22 @@
 <style>
   
 body{
-    background-image: url("triangle.jpg");
+    
+
+    background: #fd746c; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #fd746c , #ff9068); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #fd746c , #ff9068); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            
   }  
 </style>
 {% endblock %} {% block content %}
 
-<div class="container" id="hide">
-  <div class="jumbotron" id="hide">
-  </div>
-</div>
 
-<div class="container">
-  <div class="jumbotron" id="hide">
-  </div>
-</div>
 
-<div class="container col-md-3 col-md-offset-6">
+<div id="container1" class="container col-md-3 col-md-offset-6">
 <h1> Login </h1>
-</div>
+<hr>
 
-<div class="container col-md-3 col-md-offset-6">
   <div class="well login-well">
     <div class="socialaccount_ballot">
 
@@ -45,7 +41,7 @@ body{
     </div>
       <hr>
 
-      <form class="django-login" method="POST" >
+      <form  class="django-login" method="POST" >
         {% csrf_token %} {% if form.non_field_errors %}
         <div class="alert alert-warning">
           <ul class="alert-message">
