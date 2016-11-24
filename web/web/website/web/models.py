@@ -9,4 +9,17 @@ class Post(models.Model):
 		return self.content
 
 	def __str__(self):
-		return self.title
+		return self.content
+
+
+class Post1(models.Model):
+	hash1 = models.CharField(max_length=100)
+	hash2 = models.CharField(max_length=100)
+	hash3 = models.CharField(max_length=100)
+
+
+	def __unicode__(self):
+		return self.hash1
+
+	def __str__(self):
+		return self.hash1
