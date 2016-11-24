@@ -22,7 +22,11 @@ from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^web/', include('web.urls')),
+    url(r'^$', "web.views.index", name='index'),
+    url(r'^upload/$', "web.views.uploadfile", name='upload'),
+    url(r'^uploadtwitter/$', "web.views.uploadfiletwitter", name='uploadtwitter'),
+    url(r'^creation_model/$', "web.views.creationmodel", name='creationmodel'),
+    url(r'^creation_convex/$', "web.views.creationconvex", name='creationconvex'),
    
 
 ]
