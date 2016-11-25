@@ -1,0 +1,44 @@
+
+html {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	background: #555;
+	border: none;
+	font-family: sans-serif;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+#container {
+	position: absolute;
+	left:0px;
+	top:0px;
+}
+
+#ui {
+	position: relative;
+	text-align: center;
+	padding: 24px 12px 12px 12px;
+}
+
+#ui .button {
+	border: solid 2px white;
+	border-radius: 4px;
+	color: white;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: bold;
+	padding: 10px 20px;
+}
+
+#ui .button:hover {
+	background: #ED5D30;
+	border-color: #ED5D30;
+}
+
