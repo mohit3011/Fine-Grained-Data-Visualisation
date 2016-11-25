@@ -126,9 +126,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
+
+STATICFILES_DIRS = [('/home/mohit/Sem3/ssad_project/SSAD05/SSAD05/web/web/website/static/')]
+
+STATIC_ROOT = '/home/mohit/Sem3/ssad_project/SSAD05/SSAD05/web/web/website/static/images'
 
 MEDIA_URL = "/media/"
 

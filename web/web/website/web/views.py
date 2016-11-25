@@ -1,4 +1,5 @@
 import numpy as np
+import re
 import os,sys
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 from matplotlib import cm
@@ -40,13 +41,30 @@ def uploadfile(request):
 		instance = form.save(commit=False)
 		instance.save()
 		os.chdir("/home/mohit/Sem3/ssad_project/SSAD05/SSAD05/web/web/media_cdn/")
-		os.system("mv * point.txt")
+		os.system('mv * point.txt')
 		messages.success(request, "Successfully Created")
 		return redirect('creationmodel')
 
 	context = {"form":form}
 
 	return render(request,"web/uploadfile.html",context)
+
+
+def uploadfile1(request):
+
+	form = PostForm(request.POST or None, request.FILES or None)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+		os.chdir("/home/mohit/Sem3/ssad_project/SSAD05/SSAD05/web/web/media_cdn/")
+		os.system("mv * point.txt")
+		messages.success(request, "Successfully Created")
+		return redirect('creationconvex')
+
+	context = {"form":form}
+
+	return render(request,"web/uploadfile1.html",context)
+
 
 
 def uploadfiletwitter(request):
@@ -56,10 +74,12 @@ def uploadfiletwitter(request):
 		instance = form.save(commit=False)
 		instance.save()
 		messages.success(request, "Successfully Created")
-		return creationtwitter(request, instance.hash1, instance.hash2,instance.hash3)
+
+		return HttpResponseRedirect(reverse('creationtwitter', args=(instance.hash1,instance.hash2,instance.hash3,)))
+		#return HttpResponseRedirect(reverse('creationtwitter', kwargs={'hash1': instance.hash1,'hash2': instance.hash2,'hash3': instance.hash3}))
+		
 
 	context = {"form":form}
-
 	return render(request,"web/uploadfiletwitter.html",context)
 
 
@@ -82,6 +102,7 @@ def creationmodel(request):
 		y1 =  line[6]+line[7]+line[8]
 		z1 =  line[6]+line[7]+line[8]
 
+		print x1,y1,z1
 
 		x1 = int(x1)
 		y1 = -1*int(y1)
@@ -95,6 +116,7 @@ def creationmodel(request):
 
 	ax.plot_trisurf(xp, yp, zp, cmap=cm.jet, linewidth=0.2)
 	plt.show()
+	os.system('rm -rf /home/mohit/Sem3/ssad_project/SSAD05/SSAD05/web/web/media_cdn/point.txt')
 	return redirect('index')
 
 
@@ -106,17 +128,17 @@ def creationconvex(request):
 
 	content = 'point.txt'
 	content ='/home/mohit/Sem3/ssad_project/SSAD05/SSAD05/web/web/media_cdn/' + content
-	fi = open(content,'r')
+	fo = open(content,'r')
 
-	a = 20
-
+	a=1
 	points=[[] for i in xrange(a)]
 	for i in xrange(a):
 		color=['b-','g-','r-','c-','m-','y-','k-']
-		for j in xrange(1,10):
-			points[i].append([random.uniform(1,10000),random.uniform(1,10000)])
+		for line in fo:
+			te=line.split(' ')
+			points[i].append([te[0],te[1]])
 		points[i]=np.array(points[i])
-	#plt.plot(points[i][:,0], points[i][:,1], 'o')
+	
 		plt.show(block=False)
 		hull=ConvexHull(points[i])
 		for simplex in hull.simplices:
@@ -128,8 +150,8 @@ def creationconvex(request):
 	for i in xrange(a):
 		plt.plot(points[i][:,0], points[i][:,1], 'o')
 	plt.show()
-	#if k==27 or k==-1:
-	#  cv2.destroyAllWindows()
+	
+	os.system('rm -rf /home/mohit/Sem3/ssad_project/SSAD05/SSAD05/web/web/media_cdn/point.txt')
 	return redirect('index')
 
 
@@ -138,18 +160,20 @@ def creationconvex(request):
 
 
 
-def creationtwitter(request,hash1=None,hash2=None,hash3=None):
+def creationtwitter(request,hash1,hash2,hash3):
+
+	
+	h1 = hash1
+	h2 = hash2
+	h3 = hash3
 
 	try:
 	    import json
 	except ImportError:
 	    import simplejson as json
 
-	h1 = hash1
-	h2 = hash2
-	h3 = hash3
 
-	print hash1,hash2,hash3
+	print h1,h2,h3
 
 	color = ['#2ecc71','#2980b9','#c0392b','#f1c40f','#2c3e50']
 
@@ -166,63 +190,61 @@ def creationtwitter(request,hash1=None,hash2=None,hash3=None):
 	iterator = twitter_stream.statuses.filter(track=filterString)
 
 
-	total_tweets = 0
+	total_tweets = []
+	total_tweets.append(1)
 	t=[]
 	cnt_of_h=[0,0,0]
-	width = 0.8
+	#width = 0.8
 
 	fig,ax = plt.subplots()
 	h = [h1,h2,h3]
 	x_pos = list(range(len(h)))
 
 	def word_in_text(word,text):
-	    word = word.lower()
-	    text = text.lower()
-	    match = re.search(word,text)
-	    if match:
-	        return True
-	    return False
+		print "in word_in_text"
+		word = word.lower()
+		text = text.lower()
+		match = re.search(word,text)
+		if match:
+			return True
+		return False
 
 	def add_data():
-	    global total_tweets
-	    cnt = 0
-
-	    if total_tweets > 3000:
-	        os.system('sleep 1m')
-	        os.system('exit')
-
-	    for tweet in iterator:
-	        try:
-	            x = json.dumps(tweet)
-	            j = json.loads(x)
-	            tweet_text = j['text']
-	            if word_in_text(h1,tweet_text):
-	                cnt_of_h[0] += 1
-	            if word_in_text(h2,tweet_text):
-	                cnt_of_h[1] += 1
-	            if word_in_text(h3,tweet_text):
-	                cnt_of_h[2] += 1
-	        except:
-	            continue
-	        cnt += 1
-	        if cnt == 5:
-	            break;
-	       
-	    total_tweets += 5
-	    print total_tweets
+		print "in add_data"
+		cnt = 0
+		if total_tweets[0] > 60:
+			return redirect("index")
+		for tweet in iterator:
+			try:
+				x = json.dumps(tweet)
+				j = json.loads(x)
+				tweet_text = j['text']
+				if word_in_text(h1,tweet_text):
+					cnt_of_h[0] += 1
+				if word_in_text(h2,tweet_text):
+					cnt_of_h[1] += 1
+				if word_in_text(h3,tweet_text):
+					cnt_of_h[2] += 1
+			except:
+				continue
+			cnt += 1
+			if cnt == 5:
+				break
+	        total_tweets[0] += 5
+	#    total_tweets += 5
+	#    print total_tweets
 
 	def animate(i):
-	    global width
-	    add_data()
-	    width = 0.5
-	    ax.clear()
-	    ax.set_ylabel('Number of tweets')
-	    stitle = "Ranking : "+h1+" vs. " + h2 + " vs. " + h3
-	    ax.set_title(stitle)
-	    ax.set_xticks([p+ 0.2*width for p in x_pos])
-	    ax.set_xticklabels(h)
-	    plt.bar(x_pos, cnt_of_h, width, color='g')
-
+		print " in animate"
+		width = 0.8
+		add_data()
+		ax.clear()
+		ax.set_ylabel('Number of tweets')
+		stitle = "Ranking : "+h1+" vs. " + h2 + " vs. " + h3
+		ax.set_title(stitle)
+		ax.set_xticks([p+ 0.2*width for p in x_pos])
+		ax.set_xticklabels(h)
+		plt.bar(x_pos, cnt_of_h, width, color='g')
 
 	ani = animation.FuncAnimation(fig,animate,interval=10)
 

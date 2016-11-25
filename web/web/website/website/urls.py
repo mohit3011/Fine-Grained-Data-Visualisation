@@ -24,9 +24,11 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^$', "web.views.index", name='index'),
     url(r'^upload/$', "web.views.uploadfile", name='upload'),
+    url(r'^upload1/$', "web.views.uploadfile1", name='upload1'),
     url(r'^uploadtwitter/$', "web.views.uploadfiletwitter", name='uploadtwitter'),
     url(r'^creation_model/$', "web.views.creationmodel", name='creationmodel'),
     url(r'^creation_convex/$', "web.views.creationconvex", name='creationconvex'),
+    url(r'^creation_twitter/(?P<hash1>[\w\-]+)/(?P<hash2>[\w\-]+)/(?P<hash3>[\w\-]+)/$', "web.views.creationtwitter", name='creationtwitter'),
    
 
 ]
