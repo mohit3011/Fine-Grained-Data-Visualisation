@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<script>
+
+		//			var c=[];
+				  function changefunc(){
+/*
+					var fileInput = document.getElementById('fileInput');
+
+					//fileInput.addEventListener('change', function(e) {
+					var file = fileInput.files[0];
+					var textType = /text.*/;
+/*
+					if (file.type.match(textType)) {
+						var reader = new FileReader();
+						reader.onload = function(e) {
+								var a=reader.result;
+								b=a.split('\n');
+								b.pop()
+								for(var i=0;i<b.length;i++){
+									c.push([]);
+										c[i].push(b[i].split(' '));
+								}
+							}
+
+							reader.readAsText(file);
+						}
+*/
+				var seed = Botman.Util.getParameterByName( 'seed' );
+				var main = new Botman.Main();
+				main.recreate( seed );
+				//main.recreate();
+				return false;
+			}
+	</script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="libs/three.js"></script>
+	<script type="text/javascript" src="libs/Detector.js"></script>
+	<script type="text/javascript" src="libs/KeyboardState.js"></script>
+	<script type="text/javascript" src="libs/OrbitControls.js"></script>
+	<script type="text/javascript" src="libs/perlin.js"></script>
+	<script type="text/javascript" src="libs/Stats.js"></script>
+	<script type="text/javascript" src="libs/THREEx.FullScreen.js"></script>
+	<script type="text/javascript" src="libs/THREEx.WindowResize.js"></script>
+
+	<script type="text/javascript" src="js/_namespaces.js"></script>
+	<script type="text/javascript" src="js/land-layer.js"></script>
+	<script type="text/javascript" src="js/tree-layer.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/paper-texture.js"></script>
+	<script type="text/javascript" src="js/random-seed.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<title>Play</title>
+	<link rel="stylesheet" href="style.css" type="text/css" media="all">
+
+
+</head>
+
+<body>
+
+	<div id="container"></div>
+
+	<div id="ui">
+		<input type='file' class="button" id="fileInput" onchange="changefunc()">
+	</div>
+
+
+</body>
+</html>
