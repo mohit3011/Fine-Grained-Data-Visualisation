@@ -2,16 +2,16 @@ from scipy.spatial import ConvexHull
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-#filename = raw_input()
-#filename  = str(filename)
-
-a=raw_input()
-a=int(a)
+filename = raw_input()
+filename  = str(filename)
+a=1
 points=[[] for i in xrange(a)]
 for i in xrange(a):
 	color=['b-','g-','r-','c-','m-','y-','k-']
-	for j in xrange(1,10):
-		points[i].append([random.uniform(1,10000),random.uniform(1,10000)])
+	fo=open(filename,'r')
+	for line in fo:
+		te=line.split(' ')
+		points[i].append([te[0],te[1]])
 	points[i]=np.array(points[i])
 #plt.plot(points[i][:,0], points[i][:,1], 'o')
 	plt.show(block=False)
